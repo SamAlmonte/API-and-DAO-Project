@@ -1,0 +1,38 @@
+@startuml
+
+Packaging o-- Material
+
+enum Material {
+    +LAMINATED_PLASTIC
+    +CORRUGATE
+}
+
+
+class Packaging {
+    +Material getMaterial()
+    {abstract} +BigDecimal getMass()
+    {abstract} +boolean canFitItem(Item item)
+}
+
+class PolyBag{
+    +BigDecimal getVolume()
+    -BigDecimal volume
+}
+
+class Box {
+    +BigDecimal getLength()
+
+    +BigDecimal getWidth()
+
+    +BigDecimal getHeight()
+
+    -BigDecimal length;
+    -BigDecimal width;
+    -BigDecimal height;
+
+}
+Packaging <|--- PolyBag
+
+Packaging <|--- Box
+
+@enduml

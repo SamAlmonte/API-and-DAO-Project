@@ -1,0 +1,104 @@
+@startuml
+
+
+
+
+
+PromiseHistoryClient  o-- GetPromiseHistoryByOrderIdActivity
+
+GetPromiseHistoryByOrderIdActivity o-- PromiseDao
+
+GetPromiseHistoryByOrderIdActivity o-- OrderDao
+
+PromiseDao o-- DeliveryPromiseServiceClient
+
+PromiseDao o-- OrderManipulationAuthorityClient
+
+OrderDao o-- OrderManipulationAuthorityClient
+
+PromiseHistory o-- Order
+
+PromiseHistory o-- Promise
+
+Order o-- OrderItem
+
+OrderDao ..|> ReadOnlyDao
+
+PromiseDao ..|> ReadOnlyDao
+
+
+Interface ReadOnlyDao {
+    O get(I orderId)
+}
+class GetPromiseHistoryByOrderIdActivity {
+    PromiseHistory getPromiseHistoryByOrderId(String orderId)
+}
+
+
+class PromiseHistory {
+    Order getOrder()
+    void addPromise(Promise newPromise)
+    List<Promise> getPromises()
+}
+
+class Order {
+}
+
+
+class Promise {
+
+}
+
+class OrderDao  {
+    Order get(String orderId)
+}
+
+class PromiseDao {
+    List<Promise> get(String customerOrderItemId)
+}
+
+class PromiseHistoryClient {
+    PromiseHistory getPromiseHistoryByOrderId(String orderId)
+}
+
+class OrderManipulationAuthorityClient {
+    OrderResult getCustomerOrderByOrderId(String orderId)
+    OrderResultItem getCustomerOrderItemByOrderItemId(String orderItemId)
+}
+
+class DeliveryPromiseServiceClient{
+    Promise getDeliveryPromiseByOrderItemId(String customerOrderItemId)
+}
+
+class App {
+PromiseHistoryClient getPromiseHistoryClient()
+GetPromiseHistoryByOrderIdActivity getPromiseHistoryByOrderIdActivity()
+OrderDao getOrderDao()
+OrderManipulationAuthorityClient getOrderManipulationAuthorityClient()
+DeliveryPromiseServiceClient getDeliveryPromiseServiceClient()
+OrderManipulationAuthority getOrderManipulationAuthority()
+DeliveryPromiseService getDeliveryPromiseService()
+OrderDatastore getOrderDatastore()
+}
+class OrderItem {
+        Builder builder()
+
+        String getCustomerOrderItemId()
+
+        String getOrderId()
+
+        String getAsin()
+
+        String getMerchantId()
+
+        int getQuantity()
+
+        String getTitle()
+
+        boolean isConfidenceTracked()
+
+        int getConfidence()
+}
+
+
+@enduml
