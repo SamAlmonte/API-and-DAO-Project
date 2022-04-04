@@ -2,6 +2,8 @@ package com.amazon.ata.service;
 
 import com.amazon.ata.cost.CostStrategy;
 import com.amazon.ata.dao.PackagingDAO;
+import com.amazon.ata.exceptions.NoPackagingFitsItemException;
+import com.amazon.ata.exceptions.UnknownFulfillmentCenterException;
 import com.amazon.ata.types.FulfillmentCenter;
 import com.amazon.ata.types.Item;
 import com.amazon.ata.types.ShipmentCost;
@@ -45,16 +47,29 @@ public class ShipmentService {
      */
     public ShipmentOption findShipmentOption(final Item item, final FulfillmentCenter fulfillmentCenter) {
         try {
-            List<ShipmentOption> results = this.packagingDAO.findShipmentOptions(item, fulfillmentCenter);
+            List<ShipmentOption> results = packagingDAO.findShipmentOptions(item, fulfillmentCenter);
             if (this.packagingDAO.findShipmentOptions(item, fulfillmentCenter) == null)
                 throw new RuntimeException();
+            return getLowestCostShipmentOption(results);
+        }
+        catch (UnknownFulfillmentCenterException e){
+            throw new RuntimeException();
+        }
+        catch (NoPackagingFitsItemException e){
+            return ShipmentOption.builder().withItem(item).withPackaging(null).withFulfillmentCenter(fulfillmentCenter).build();
+        }
+    }
+
+   /* public ShipmentOption findShipmentOption(final Item item, final FulfillmentCenter fulfillmentCenter) {
+        try {
+            List<ShipmentOption> results = this.packagingDAO.findShipmentOptions(item, fulfillmentCenter);
             return getLowestCostShipmentOption(results);
         } catch (Exception e) {
             return null;
         }
-    }
+    } */
 
-    private ShipmentOption getLowestCostShipmentOption(List<ShipmentOption> results) {
+    public ShipmentOption getLowestCostShipmentOption(List<ShipmentOption> results) {
         List<ShipmentCost> shipmentCosts = applyCostStrategy(results);
         Collections.sort(shipmentCosts);
         return shipmentCosts.get(0).getShipmentOption();

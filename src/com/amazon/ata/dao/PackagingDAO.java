@@ -31,7 +31,7 @@ public class PackagingDAO {
                 aSet.add(fc);
                 this.fcsWithPackageOptionsMap.put(fc.getFulfillmentCenter(), aSet);
             }
-            //bracket conditions, contains key, constains box material
+            //bracket conditions, map contains valid key, boxMaterial == specificBoxMaterial
             else if (this.fcsWithPackageOptionsMap.containsKey(fc.getFulfillmentCenter()) && fc.getPackaging().getMaterial().equals(Material.CORRUGATE)){
                 //if the key is in the map
                 Box aBox = (Box) fc.getPackaging();
