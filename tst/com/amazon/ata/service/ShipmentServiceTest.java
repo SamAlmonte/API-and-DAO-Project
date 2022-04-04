@@ -76,10 +76,11 @@ class ShipmentServiceTest {
         //ShipmentOption shipmentOption = shipmentService.findShipmentOption(smallItem, nonExistentFC);
         PackagingDAO packagingDAO1 = new PackagingDAO(new PackagingDatastore());
         ShipmentService shipmentService = new ShipmentService(packagingDAO1, new WeightedCostStrategy(new MonetaryCostStrategy(), new CarbonCostStrategy()));
-        ShipmentOption shipmentOption = shipmentService.findShipmentOption(smallItem, nonExistentFC);
+        //ShipmentOption shipmentOption = shipmentService.findShipmentOption(smallItem, nonExistentFC);
 
         // THEN
-        assertNotNull(shipmentOption);
+        assertThrows(RuntimeException.class,
+                () -> shipmentService.findShipmentOption(smallItem, nonExistentFC));
     }
 
     @Test
