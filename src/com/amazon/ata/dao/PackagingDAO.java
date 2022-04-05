@@ -45,12 +45,12 @@ public class PackagingDAO {
                     aSet.add(fc);
                 }
             } else if (this.fcsWithPackageOptionsMap.containsKey(fc.getFulfillmentCenter()) && fc.getPackaging().getMaterial().equals(Material.LAMINATED_PLASTIC)) {
-                PolyBag aBox = (PolyBag) fc.getPackaging(); //We will test to see if this package is unique
+                PolyBag aBox = (PolyBag) fc.getPackaging();
                 Set<PolyBag> boxes = new HashSet<>();
                 Set<FcPackagingOption> aSet = fcsWithPackageOptionsMap.get(fc.getFulfillmentCenter());
                 for (FcPackagingOption ith : aSet) {
                     if (ith.getPackaging().getMaterial().equals(Material.LAMINATED_PLASTIC)) {
-                        boxes.add((PolyBag) ith.getPackaging()); //add all the boxes with this specific material
+                        boxes.add((PolyBag) ith.getPackaging());
                     }
                 }
                 if (!boxes.contains(aBox)) {
@@ -109,46 +109,5 @@ public class PackagingDAO {
 
         return result;
     }
-
-
-
-/*    public List<ShipmentOption> findShipmentOptions(Item item, FulfillmentCenter fulfillmentCenter)
-            throws UnknownFulfillmentCenterException, NoPackagingFitsItemException {
-
-        // Check all FcPackagingOptions for a suitable Packaging in the given FulfillmentCenter
-        List<ShipmentOption> result = new ArrayList<>();
-        boolean fcFound = false;
-        for (FcPackagingOption fcPackagingOption : fcPackagingOptions) {
-            Packaging packaging = fcPackagingOption.getPackaging();
-            String fcCode = fcPackagingOption.getFulfillmentCenter().getFcCode();
-
-            if (fcCode.equals(fulfillmentCenter.getFcCode())) {
-                fcFound = true;
-                if (packaging.canFitItem(item)) {
-                    result.add(ShipmentOption.builder()
-                            .withItem(item)
-                            .withPackaging(packaging)
-                            .withFulfillmentCenter(fulfillmentCenter)
-                            .build());
-                }
-            }
-        }
-
-        // Notify caller about unexpected results
-        if (!fcFound) {
-            throw new UnknownFulfillmentCenterException(
-                    String.format("Unknown FC: %s!", fulfillmentCenter.getFcCode()));
-        }
-
-        if (result.isEmpty()) {
-            throw new NoPackagingFitsItemException(
-                    String.format("No packaging at %s fits %s!", fulfillmentCenter.getFcCode(), item));
-        }
-
-        return result;
-    }
-
- */
-
 
 } //end Class
