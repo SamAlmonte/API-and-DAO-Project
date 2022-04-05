@@ -48,14 +48,13 @@ public class ShipmentService {
     public ShipmentOption findShipmentOption(final Item item, final FulfillmentCenter fulfillmentCenter) {
         try {
             List<ShipmentOption> results = packagingDAO.findShipmentOptions(item, fulfillmentCenter);
-            if (this.packagingDAO.findShipmentOptions(item, fulfillmentCenter) == null)
+            if (this.packagingDAO.findShipmentOptions(item, fulfillmentCenter) == null) {
                 throw new RuntimeException();
+            }
             return getLowestCostShipmentOption(results);
-        }
-        catch (UnknownFulfillmentCenterException e) {
+        } catch (UnknownFulfillmentCenterException e) {
             throw new RuntimeException();
-        }
-        catch (NoPackagingFitsItemException e) {
+        } catch (NoPackagingFitsItemException e) {
             return ShipmentOption.builder().withItem(item).withPackaging(null).withFulfillmentCenter(fulfillmentCenter).build();
         }
     }
