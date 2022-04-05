@@ -27,7 +27,7 @@ public class Box extends Packaging {
      * @param width - the width of the package
      * @param height - the height of the package
      */
-    public Box(Material material, BigDecimal length, BigDecimal width, BigDecimal height){
+    public Box(Material material, BigDecimal length, BigDecimal width, BigDecimal height) {
         super(material);
         this.length = length;
         this.width = width;

@@ -52,10 +52,10 @@ public class ShipmentService {
                 throw new RuntimeException();
             return getLowestCostShipmentOption(results);
         }
-        catch (UnknownFulfillmentCenterException e){
+        catch (UnknownFulfillmentCenterException e) {
             throw new RuntimeException();
         }
-        catch (NoPackagingFitsItemException e){
+        catch (NoPackagingFitsItemException e) {
             return ShipmentOption.builder().withItem(item).withPackaging(null).withFulfillmentCenter(fulfillmentCenter).build();
         }
     }

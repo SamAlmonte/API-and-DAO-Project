@@ -24,28 +24,30 @@ public class PackagingDAO {
     public PackagingDAO(PackagingDatastore datastore) {
         this.fcPackagingOptions =  new ArrayList<>(datastore.getFcPackagingOptions());
         this.fcsWithPackageOptionsMap = new HashMap<>();
-        for(FcPackagingOption fc : fcPackagingOptions){
-            if(!this.fcsWithPackageOptionsMap.containsKey(fc.getFulfillmentCenter())){
+        for(FcPackagingOption fc : fcPackagingOptions) {
+            if (!this.fcsWithPackageOptionsMap.containsKey(fc.getFulfillmentCenter())) {
                 //since key is not in map add it immediately.
                 Set<FcPackagingOption> aSet = new HashSet<>();
                 aSet.add(fc);
                 this.fcsWithPackageOptionsMap.put(fc.getFulfillmentCenter(), aSet);
             }
             //bracket conditions, map contains valid key, boxMaterial == specificBoxMaterial
-            else if (this.fcsWithPackageOptionsMap.containsKey(fc.getFulfillmentCenter()) && fc.getPackaging().getMaterial().equals(Material.CORRUGATE)){
+            else if (this.fcsWithPackageOptionsMap.containsKey(fc.getFulfillmentCenter()) && fc.getPackaging().getMaterial().equals(Material.CORRUGATE)) {
                 //if the key is in the map
                 Box aBox = (Box) fc.getPackaging();
                 //iterate the set that this key belongs to, if unique box is not within set, add it to the hashSet
                 Set<Box> boxes = new HashSet<>();
                 Set<FcPackagingOption> aSet = fcsWithPackageOptionsMap.get(fc.getFulfillmentCenter());
-                for(FcPackagingOption ith : aSet){
-                    if(ith.getPackaging().getMaterial().equals(Material.CORRUGATE))
+                for (FcPackagingOption ith : aSet) {
+                    if(ith.getPackaging().getMaterial().equals(Material.CORRUGATE)) {
                         boxes.add((Box) ith.getPackaging());
+                    }
                 }
-                if(!boxes.contains(aBox))
+                if (!boxes.contains(aBox)) {
                     aSet.add(fc);
+                }
             }
-            else if ((this.fcsWithPackageOptionsMap.containsKey(fc.getFulfillmentCenter()) && fc.getPackaging().getMaterial().equals(Material.LAMINATED_PLASTIC))){
+            else if ((this.fcsWithPackageOptionsMap.containsKey(fc.getFulfillmentCenter()) && fc.getPackaging().getMaterial().equals(Material.LAMINATED_PLASTIC))) {
                 //this bracket will differentiate unique polyBags
                 //if the key is in the map
                 PolyBag aBox = (PolyBag) fc.getPackaging(); //We will test to see if this package is unique
@@ -53,13 +55,15 @@ public class PackagingDAO {
                 Set<PolyBag> boxes = new HashSet<>();
                 Set<FcPackagingOption> aSet = fcsWithPackageOptionsMap.get(fc.getFulfillmentCenter());
                 //get all the packaging associated with this fulfilment center
-                for(FcPackagingOption ith : aSet){
-                    if(ith.getPackaging().getMaterial().equals(Material.LAMINATED_PLASTIC))
+                for (FcPackagingOption ith : aSet) {
+                    if (ith.getPackaging().getMaterial().equals(Material.LAMINATED_PLASTIC)) {
                         boxes.add((PolyBag) ith.getPackaging()); //add all the boxes with this specific material
+                    }
                 }
                 //if aBox is not found add it to the set
-                if(!boxes.contains(aBox))
+                if (!boxes.contains(aBox)) {
                     aSet.add(fc);
+                }
             }
         }
     }
@@ -81,8 +85,9 @@ public class PackagingDAO {
         // Check all FcPackagingOptions for a suitable Packaging in the given FulfillmentCenter
         List<ShipmentOption> result = new ArrayList<>();
         boolean fcFound = false;
-        if(fcsWithPackageOptionsMap.get(fulfillmentCenter) == null)
+        if(fcsWithPackageOptionsMap.get(fulfillmentCenter) == null) {
             throw new UnknownFulfillmentCenterException("Unable to find FC object with given code");
+        }
         for (FcPackagingOption fcPackagingOption : fcsWithPackageOptionsMap.get(fulfillmentCenter)) {
             Packaging packaging = fcPackagingOption.getPackaging();
             String fcCode = fcPackagingOption.getFulfillmentCenter().getFcCode();

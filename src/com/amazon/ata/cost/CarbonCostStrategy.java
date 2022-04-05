@@ -12,7 +12,7 @@ import java.util.Map;
 public class CarbonCostStrategy implements CostStrategy {
     private final Map<Material, BigDecimal> carbonUnitsCostPerGram;
 
-    public CarbonCostStrategy(){
+    public CarbonCostStrategy() {
         carbonUnitsCostPerGram = new HashMap<>();
         carbonUnitsCostPerGram.put(Material.CORRUGATE, BigDecimal.valueOf(0.017));
         carbonUnitsCostPerGram.put(Material.LAMINATED_PLASTIC, BigDecimal.valueOf(0.012));
@@ -20,7 +20,7 @@ public class CarbonCostStrategy implements CostStrategy {
 
 
     @Override
-    public ShipmentCost getCost(ShipmentOption shipmentOption){
+    public ShipmentCost getCost(ShipmentOption shipmentOption) {
         Packaging packaging = shipmentOption.getPackaging();
         BigDecimal grams = packaging.getMass();
         return new ShipmentCost(shipmentOption, grams.multiply(carbonUnitsCostPerGram.get(packaging.getMaterial())));

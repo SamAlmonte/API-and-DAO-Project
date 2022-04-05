@@ -5,11 +5,11 @@ import java.util.Objects;
 
 public class PolyBag extends Packaging{
     BigDecimal volume;
-    public PolyBag(Material material, BigDecimal volume){
+    public PolyBag(Material material, BigDecimal volume) {
         super(material);
         this.volume = volume;
     }
-    public BigDecimal getMass(){
+    public BigDecimal getMass() {
         double theVolume = volume.doubleValue();
         return BigDecimal.valueOf(Math.ceil(Math.sqrt(theVolume) * 0.6));
     }
@@ -26,7 +26,7 @@ public class PolyBag extends Packaging{
         return volume.compareTo(itemVolume) > 0;
     }
 
-    public BigDecimal getVolume(){
+    public BigDecimal getVolume() {
         return volume;
     }
 

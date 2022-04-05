@@ -1,6 +1,4 @@
 package com.amazon.ata.cost;
-
-import com.amazon.ata.types.Material;
 import com.amazon.ata.types.ShipmentCost;
 import com.amazon.ata.types.ShipmentOption;
 
@@ -13,7 +11,7 @@ public class WeightedCostStrategy implements CostStrategy {
     MonetaryCostStrategy monetaryCostStrategy;
     private Map<CostStrategy, BigDecimal> weighted_cost;
 
-    public WeightedCostStrategy(MonetaryCostStrategy monetaryCostStrategy, CarbonCostStrategy carbonCostStrategy){
+    public WeightedCostStrategy(MonetaryCostStrategy monetaryCostStrategy, CarbonCostStrategy carbonCostStrategy) {
         this.carbonCostStrategy = carbonCostStrategy;
         this.monetaryCostStrategy = monetaryCostStrategy;
         weighted_cost = new HashMap<>();
@@ -24,7 +22,7 @@ public class WeightedCostStrategy implements CostStrategy {
         this.weighted_cost = weighted_cost;
     }*/
 
-    public ShipmentCost getCost(ShipmentOption shipmentOption){
+    public ShipmentCost getCost(ShipmentOption shipmentOption) {
         //carbonCostStrategy.
         BigDecimal monetaryCost = monetaryCostStrategy.getCost(shipmentOption).getCost().multiply(BigDecimal.valueOf(0.80));
         BigDecimal carbonCost = carbonCostStrategy.getCost(shipmentOption).getCost().multiply(BigDecimal.valueOf(0.20));
