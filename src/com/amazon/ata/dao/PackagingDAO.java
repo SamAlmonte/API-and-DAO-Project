@@ -45,10 +45,7 @@ public class PackagingDAO {
                     aSet.add(fc);
                 }
             } else if (this.fcsWithPackageOptionsMap.containsKey(fc.getFulfillmentCenter()) && fc.getPackaging().getMaterial().equals(Material.LAMINATED_PLASTIC)) {
-                //this bracket will differentiate unique polyBags
-                //if the key is in the map
                 PolyBag aBox = (PolyBag) fc.getPackaging(); //We will test to see if this package is unique
-                //iterate the set that this key belongs to, if polyBag is unique, add it to hashSet
                 Set<PolyBag> boxes = new HashSet<>();
                 Set<FcPackagingOption> aSet = fcsWithPackageOptionsMap.get(fc.getFulfillmentCenter());
                 for (FcPackagingOption ith : aSet) {
