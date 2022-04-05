@@ -1,0 +1,32 @@
+@startuml
+
+interface CostStrategy {
+      + getCost(ShipmentOption) : ShipmentCost
+}
+
+class ShipmentCost
+
+MonetaryCostStrategy ...|> CostStrategy
+
+CarbonCostStrategy ...|> CostStrategy
+
+WeightedCostStrategy ...|> CostStrategy
+
+class MonetaryCostStrategy {
+
+}
+
+class CarbonCostStrategy {
+
+}
+
+class WeightedCostStrategy {
+
+}
+
+WeightedCostStrategy --o MonetaryCostStrategy
+WeightedCostStrategy --o CarbonCostStrategy
+
+
+
+@enduml
